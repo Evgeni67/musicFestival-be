@@ -8,7 +8,7 @@ const {
   notFoundHandler,
   genericErrorHandler,
 } = require("./services/utilities/errorHandling");
-// const profileRouter = require("./services/profiles");
+ const profileRouter = require("./services/profiles");
 const server = express();
 const httpServer = http.createServer(server);
 createSocketServer(httpServer);
@@ -18,7 +18,7 @@ server.use(express.json({ limit: "50mb" }));
 server.use(cors());
 
 server.use(express.json());
-// server.use("/profiles",profileRouter)
+ server.use("/profiles",profileRouter)
 server.use(badRequestHandler);
 server.use(notFoundHandler);
 server.use(genericErrorHandler);
