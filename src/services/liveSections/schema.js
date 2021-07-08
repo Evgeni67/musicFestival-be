@@ -4,8 +4,20 @@ const LiveSectionSchema = new Schema(
     performerName: {
       type: String,
     },
-    liveURL: {
+    liveUrl: {
       type: String,
+    },
+    picPreview: {
+      type: String,
+    },
+    likes: {
+      type: Number,
+    },
+    dislikes: {
+      type: Number,
+    },
+    views: {
+      type: Number,
     },
     comments: [],
   },
@@ -15,4 +27,3 @@ const LiveSectionSchema = new Schema(
 const LiveSectionModel = model("LiveSections", LiveSectionSchema);
 
 module.exports = LiveSectionModel;
-s

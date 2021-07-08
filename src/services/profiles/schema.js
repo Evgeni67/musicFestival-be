@@ -12,7 +12,7 @@ const ProfileSchema = new Schema(
     },
     isAdmin:{
       type: Boolean,
-    }
+    },
     online: {
       type:Boolean,
       required:true,

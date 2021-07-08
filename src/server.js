@@ -9,6 +9,7 @@ const {
   genericErrorHandler,
 } = require("./services/utilities/errorHandling");
  const profileRouter = require("./services/profiles");
+ const liveSectionsRouter = require("./services/liveSections");
 const server = express();
 const httpServer = http.createServer(server);
 createSocketServer(httpServer);
@@ -19,6 +20,7 @@ server.use(cors());
 
 server.use(express.json());
  server.use("/profiles",profileRouter)
+ server.use("/liveSections",liveSectionsRouter)
 server.use(badRequestHandler);
 server.use(notFoundHandler);
 server.use(genericErrorHandler);
