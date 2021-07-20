@@ -38,7 +38,6 @@ liveSectionsRouter.post("/editSection/:name", async (req, res, next) => {
     const newLiveSection = new LiveSectionModel.findOne({
       performerName: req.header.name,
     });
-    console.log(newLiveSection);
     newLiveSection.save();
     res.send(newLiveSection._id);
   } catch (error) {
@@ -47,8 +46,6 @@ liveSectionsRouter.post("/editSection/:name", async (req, res, next) => {
 });
 liveSectionsRouter.post("/addComment/:id", async (req, res, next) => {
   try {
-    console.log(await LiveSectionModel.findById(req.params.id))
-    console.log(req.body)
     const newLiveSection = await LiveSectionModel.findByIdAndUpdate(
      req.params.id,
       {
@@ -58,12 +55,61 @@ liveSectionsRouter.post("/addComment/:id", async (req, res, next) => {
         new: true,
       }
     );
-    console.log(newLiveSection);
     newLiveSection.save();
     res.send(await LiveSectionModel.findById(req.params.id));
   } catch (error) {
     next(error);
   }
 });
-
+liveSectionsRouter.post("/addView/:id", async (req, res, next) => {
+  try {
+    const newLiveSection = await LiveSectionModel.findByIdAndUpdate(
+     req.params.id,
+      {
+        $inc : {'views' : 1},
+      },
+      {
+        new: true,
+      }
+    );
+    newLiveSection.save();
+    res.send(await LiveSectionModel.findById(req.params.id));
+  } catch (error) {
+    next(error);
+  }
+});
+liveSectionsRouter.post("/addLike/:id", async (req, res, next) => {
+  try {
+    const newLiveSection = await LiveSectionModel.findByIdAndUpdate(
+     req.params.id,
+      {
+        $inc : {'likes' : 1},
+      },
+      {
+        new: true,
+      }
+    );
+    newLiveSection.save();
+    res.send(await LiveSectionModel.findById(req.params.id));
+  } catch (error) {
+    next(error);
+  }
+});
+liveSectionsRouter.post("/addDislike/:id", async (req, res, next) => {
+  try {
+    const newLiveSection = await LiveSectionModel.findByIdAndUpdate(
+     req.params.id,
+      {
+        $inc : {'dislikes' : 1},
+      },
+      {
+        new: true,
+      }
+    );
+    newLiveSection.save();
+    res.send(await LiveSectionModel.findById(req.params.id));
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = liveSectionsRouter;
