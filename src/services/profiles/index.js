@@ -3,6 +3,7 @@ const { authenticate, refreshToken, cryptPassword } = require("../auth/tools");
 const ProfileModel = require("./schema");
 const profilesRouter = express.Router();
 const { authorize } = require("../auth/middleware");
+const { verifyJWT } = require("../auth/tools");
 profilesRouter.post("/register", async (req, res, next) => {
   try {
     const password = await cryptPassword(req.body.password);
@@ -14,15 +15,26 @@ profilesRouter.post("/register", async (req, res, next) => {
     next(error);
   }
 });
+profilesRouter.post("/me", async (req, res, next) => {
+  try {
 
+    const decoded =  verifyJWT(req.body.token);
+    console.log(decoded)
+    const user = await ProfileModel.findOne({
+      _id: decoded._id,
+    });
+    console.log("HERE IS THE USER" , user)
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
 profilesRouter.post("/login", async (req, res, next) => {
   try {
-    console.log(req.body)
     const { email, password } = req.body;
     const user = await ProfileModel.findByCredentials(email, password, {
       new: true,
     });
-    console.log(user)
     user.online = true;
     user.save();
     const tokens = await authenticate(user);
